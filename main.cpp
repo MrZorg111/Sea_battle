@@ -37,6 +37,8 @@ char field(int b, int c) {
     return a [b][c];
 }
 
+
+
 int main() {
     char filed_player_1[10][10];
     char filed_player_2[10][10];
@@ -46,7 +48,23 @@ int main() {
             filed_player_2[i][l] = field(i, l);
         }
     }
+    int x, y;
+    for (int i = 0; i < 15; i++) {
+        do {
+            std::cout << "Player number one, arrange your ships: \n";
+            std::cout << "Enter the coordinates of your ships - x: \n";
+            std::cin >> x;
+            std::cout << "Enter the coordinates of your ships - y: \n";
+            std::cin >> y;
+        } while ((x && y < 0) || (x && y > 9));
+        filed_player_1[x][y] = 'O';
+        for (int t = 0; t < 10; t++) {
+            for (int l = 0; l < 10; l++) {
+                std::cout << filed_player_1[t][l] << " ";
+            }
+            std::cout << std::endl;
+        }
 
-    std::cout << "Player number one, arrange your ships: \n";
+    }
 
 }
