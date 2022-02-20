@@ -1,12 +1,7 @@
 #include <iostream>
 
 /*
- * Требуется реализовать упрощённую игру в Морской бой.
- * Игровое поле размером 10 на 10 клеток. Участвует двое игроков.
- * В арсенале каждого из них: 4 маленьких кораблика размером в одну клетку, 3 небольших корабля размером в две клетки,
- * 2 средних корабля размером в три клетки и один большой корабль размером в четыре клетки.
- * Для простоты, клетки поля пронумерованы по вертикали от 0 до 9, и по горизонтали также от 0 до 9.
- * Мы не будем использовать классические наименования клеток, такие как B4, C6, а просто два индекса.
+
  * Вначале игроки по очереди расставляют корабли, начиная с самых маленьких и заканчивая большими.
  * Маленькие корабли в одну клетку расставляются с помощью указания лишь одной клетки-точки на поле, к примеру 2,1.
  * Корабли размерностью от двух клеток и выше, расставляются с помощью координат их начала и конца, к примеру: 0,1 - 0,3.
@@ -24,42 +19,90 @@
  * */
 
 char field(int b, int c) {
-    char a [10][10] {{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-                     {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-                     {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-                     {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-                     {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-                     {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-                     {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-                     {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-                     {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-                     {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}};
+    char a [13][13] {{' ', ' ', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ' '},
+                     {' ', '+', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '+'},
+                     {'0', '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|'},
+                     {'1', '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ','|'},
+                     {'2', '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ','|'},
+                     {'3', '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',  ' ','|'},
+                     {'4', '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',  ' ','|'},
+                     {'5', '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',  ' ','|'},
+                     {'6', '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',  ' ','|'},
+                     {'7', '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',  ' ','|'},
+                    {'8', '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',  ' ','|'},
+                    {'9', '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',  ' ','|'},
+                    {' ', '+', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '+'}};
     return a [b][c];
+}
+char ship(char a[][13], int b, int c, int d, int e) {
+    for (int i = c; i <= e; i++) {
+        for (int l = b; l <= d; l++) {
+            a[l][i] = 'O';
+        }
+    }
+
 }
 
 
-
 int main() {
-    char filed_player_1[10][10];
-    char filed_player_2[10][10];
-    for (int i = 0; i < 10; i++) {
-        for (int l = 0; l < 10; l++) {
+    char filed_player_1[13][13];
+    char filed_player_2[13][13];
+    for (int i = 0; i < 13; i++) {
+        for (int l = 0; l < 13; l++) {
             filed_player_1[i][l] = field(i, l);
             filed_player_2[i][l] = field(i, l);
         }
     }
-    int x, y;
+    int x, x_2, y, y_2, ships = 0;
     for (int i = 0; i < 15; i++) {
+
+
         do {
             std::cout << "Player number one, arrange your ships: \n";
-            std::cout << "Enter the coordinates of your ships - x: \n";
-            std::cin >> x;
-            std::cout << "Enter the coordinates of your ships - y: \n";
-            std::cin >> y;
-        } while ((x && y < 0) || (x && y > 9));
-        filed_player_1[x][y] = 'O';
-        for (int t = 0; t < 10; t++) {
-            for (int l = 0; l < 10; l++) {
+            if (ships < 4) {
+                std::cout << "Enter the coordinates of the single-deck ship: - x: \n";
+                std::cin >> x;
+                std::cout << "Enter the coordinates of the single-deck ship: - y: \n";
+                std::cin >> y;
+                filed_player_1[y + 2][x + 2] = 'O';
+            }
+            if (ships < 7) {
+                std::cout << "Enter the initial coordinates of the two-deck ship: - x: \n";
+                std::cin >> x;
+                std::cout << "Enter the initial coordinates of the two-deck ship: - x: \n";
+                std::cin >> x_2;
+                std::cout << "Enter the final coordinates of the two-deck ship: - y: \n";
+                std::cin >> y;
+                std::cout << "Enter the final coordinates of the two-deck ship: - x: \n";
+                std::cin >> y_2;
+                filed_player_1[y + 2][x + 2] = ship(filed_player_1, y + 2, x + 2, y_2 + 2, x_2 + 2);
+            }
+            if (ships < 9) {
+                std::cout << "Enter the initial coordinates of the two-deck ship: - x: \n";
+                std::cin >> x;
+                std::cout << "Enter the initial coordinates of the two-deck ship: - x: \n";
+                std::cin >> x_2;
+                std::cout << "Enter the final coordinates of the two-deck ship: - y: \n";
+                std::cin >> y;
+                std::cout << "Enter the final coordinates of the two-deck ship: - x: \n";
+                std::cin >> y_2;
+                filed_player_1[y + 2][x + 2] = ship(filed_player_1, y + 2, x + 2, y_2 + 2, x_2 + 2);
+            }
+            if (ships < 10) {
+                std::cout << "Enter the initial coordinates of the two-deck ship: - x: \n";
+                std::cin >> x;
+                std::cout << "Enter the initial coordinates of the two-deck ship: - x: \n";
+                std::cin >> x_2;
+                std::cout << "Enter the final coordinates of the two-deck ship: - y: \n";
+                std::cin >> y;
+                std::cout << "Enter the final coordinates of the two-deck ship: - x: \n";
+                std::cin >> y_2;
+                filed_player_1[y + 2][x + 2] = ship(filed_player_1, y + 2, x + 2, y_2 + 2, x_2 + 2);
+            }
+        } while ((x && y && x_2 && y_2 < 0) || (x && y && x_2 && y_2 > 9));
+
+        for (int t = 0; t < 13; t++) {
+            for (int l = 0; l < 13; l++) {
                 std::cout << filed_player_1[t][l] << " ";
             }
             std::cout << std::endl;
