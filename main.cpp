@@ -34,14 +34,6 @@ char field(int b, int c) {
                     {' ', '+', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '+'}};
     return a [b][c];
 }
-char ship(char a[][13], int b, int c, int d, int e) {
-    for (int i = c; i <= e; i++) {
-        for (int l = b; l <= d; l++) {
-            a[l][i] = 'O';
-        }
-    }
-
-}
 
 
 int main() {
@@ -53,7 +45,7 @@ int main() {
             filed_player_2[i][l] = field(i, l);
         }
     }
-    int x, x_2, y, y_2, ships = 0;
+    int x, x_2 = 1, y, y_2 = 1, ships = 0;
     for (int i = 0; i < 15; i++) {
 
 
@@ -66,41 +58,36 @@ int main() {
                 std::cin >> y;
                 filed_player_1[y + 2][x + 2] = 'O';
             }
-            if (ships < 7) {
-                std::cout << "Enter the initial coordinates of the two-deck ship: - x: \n";
+            int deck = 2;
+            if (ships > 3 && ships < 10) {
+                if (ships == 6 || ships == 8) {
+                    deck++;
+                }
+                std::cout << "Enter the initial coordinates of the " << deck << "-deck ship: - x: \n";
                 std::cin >> x;
-                std::cout << "Enter the initial coordinates of the two-deck ship: - x: \n";
+                std::cout << "Enter the initial coordinates of the " << deck << "-deck ship: - x_2: \n";
                 std::cin >> x_2;
-                std::cout << "Enter the final coordinates of the two-deck ship: - y: \n";
+                std::cout << "Enter the final coordinates of the " << deck << "-deck ship: - y: \n";
                 std::cin >> y;
-                std::cout << "Enter the final coordinates of the two-deck ship: - x: \n";
+                std::cout << "Enter the final coordinates of the " << deck << "-deck ship: - y_2: \n";
                 std::cin >> y_2;
-                filed_player_1[y + 2][x + 2] = ship(filed_player_1, y + 2, x + 2, y_2 + 2, x_2 + 2);
-            }
-            if (ships < 9) {
-                std::cout << "Enter the initial coordinates of the two-deck ship: - x: \n";
-                std::cin >> x;
-                std::cout << "Enter the initial coordinates of the two-deck ship: - x: \n";
-                std::cin >> x_2;
-                std::cout << "Enter the final coordinates of the two-deck ship: - y: \n";
-                std::cin >> y;
-                std::cout << "Enter the final coordinates of the two-deck ship: - x: \n";
-                std::cin >> y_2;
-                filed_player_1[y + 2][x + 2] = ship(filed_player_1, y + 2, x + 2, y_2 + 2, x_2 + 2);
-            }
-            if (ships < 10) {
-                std::cout << "Enter the initial coordinates of the two-deck ship: - x: \n";
-                std::cin >> x;
-                std::cout << "Enter the initial coordinates of the two-deck ship: - x: \n";
-                std::cin >> x_2;
-                std::cout << "Enter the final coordinates of the two-deck ship: - y: \n";
-                std::cin >> y;
-                std::cout << "Enter the final coordinates of the two-deck ship: - x: \n";
-                std::cin >> y_2;
-                filed_player_1[y + 2][x + 2] = ship(filed_player_1, y + 2, x + 2, y_2 + 2, x_2 + 2);
-            }
-        } while ((x && y && x_2 && y_2 < 0) || (x && y && x_2 && y_2 > 9));
+                if (x_2 == y_2) {
+                    for (int u = x; u <= y; u++) {
+                        filed_player_1[y + 2][u + 2] = 'O';
 
+                    }
+                }
+                else if (x == y) {
+                    for (int l = x_2; l <= y_2; l++) {
+                        filed_player_1[l + 2][x + 2] = 'O';
+
+                    }
+                }
+
+            }
+           } while ((x && y && x_2 && y_2 < 0) || (x && y && x_2 && y_2 > 9));
+        ships++;
+        std::cout << ships << " \n";
         for (int t = 0; t < 13; t++) {
             for (int l = 0; l < 13; l++) {
                 std::cout << filed_player_1[t][l] << " ";
