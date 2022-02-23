@@ -45,56 +45,52 @@ int main() {
             filed_player_2[i][l] = field(i, l);
         }
     }
-    int x, x_2 = 1, y, y_2 = 1, ships = 0;
+    int x, tempo_x, y, tempo_y, ships = 0, deck = 2;
+
     for (int i = 0; i < 15; i++) {
-
-
         do {
             std::cout << "Player number one, arrange your ships: \n";
-            if (ships < 4) {
-                std::cout << "Enter the coordinates of the single-deck ship: - x: \n";
-                std::cin >> x;
-                std::cout << "Enter the coordinates of the single-deck ship: - y: \n";
-                std::cin >> y;
-                filed_player_1[y + 2][x + 2] = 'O';
-            }
-            int deck = 2;
-            if (ships > 3 && ships < 10) {
-                if (ships == 6 || ships == 8) {
-                    deck++;
+            std::cout << "Enter the coordinates of the first-deck ship: - x: \n";
+            std::cin >> x;
+            std::cout << "Enter the coordinates of the first-deck ship: - y: \n";
+            std::cin >> y;
+            if (ships > 3 && ships <= 10) {
+                if (ships == 6 || ships == 9) {
+                    deck += 1;
                 }
+                tempo_x = x, tempo_y = y;
                 std::cout << "Enter the initial coordinates of the " << deck << "-deck ship: - x: \n";
                 std::cin >> x;
-                std::cout << "Enter the initial coordinates of the " << deck << "-deck ship: - x_2: \n";
-                std::cin >> x_2;
                 std::cout << "Enter the final coordinates of the " << deck << "-deck ship: - y: \n";
                 std::cin >> y;
-                std::cout << "Enter the final coordinates of the " << deck << "-deck ship: - y_2: \n";
-                std::cin >> y_2;
-                if (x_2 == y_2) {
-                    for (int u = x; u <= y; u++) {
-                        filed_player_1[y + 2][u + 2] = 'O';
-
-                    }
+                if (x - tempo_x && y - tempo_y != deck - 1) {
+                    std::cout << "The size of the ship is set incorrectly!";
+                    break;
                 }
-                else if (x == y) {
-                    for (int l = x_2; l <= y_2; l++) {
-                        filed_player_1[l + 2][x + 2] = 'O';
+            }
+            filed_player_1[y + 2][x + 2] = 'O';
+           }while ((x && y && tempo_x && tempo_y < 0) || (x && y && tempo_x && tempo_y > 9));
+            if (y == tempo_y) {
+                for (int u = tempo_x; u <= x; u++) {
+                    filed_player_1[y + 2][u + 2] = 'O';
 
-                    }
                 }
+            } else if (x == tempo_x) {
+                for (int l = tempo_y; l <= y; l++) {
+                    filed_player_1[l + 2][x + 2] = 'O';
 
+                }
             }
-           } while ((x && y && x_2 && y_2 < 0) || (x && y && x_2 && y_2 > 9));
-        ships++;
-        std::cout << ships << " \n";
-        for (int t = 0; t < 13; t++) {
-            for (int l = 0; l < 13; l++) {
-                std::cout << filed_player_1[t][l] << " ";
+            ships++;
+            std::cout << ships << " \n";
+            for (int t = 0; t < 13; t++) {
+                for (int l = 0; l < 13; l++) {
+                    std::cout << filed_player_1[t][l] << " ";
+                }
+                std::cout << std::endl;
             }
-            std::cout << std::endl;
-        }
+
+
 
     }
-
 }
