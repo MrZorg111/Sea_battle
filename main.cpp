@@ -46,31 +46,35 @@ int main() {
         }
     }
     int x, tempo_x, y, tempo_y, ships = 0, deck = 2;
+    bool good = true;
 
-    for (int i = 0; i < 15; i++) {
+    for (int i = 0; i < 10; i++) {
         do {
+            good = true;
             std::cout << "Player number one, arrange your ships: \n";
             std::cout << "Enter the coordinates of the first-deck ship: - x: \n";
             std::cin >> x;
             std::cout << "Enter the coordinates of the first-deck ship: - y: \n";
             std::cin >> y;
-            if (ships > 3 && ships <= 10) {
-                if (ships == 6 || ships == 9) {
+            if (ships > 3 && ships < 10) {
+                if (ships == 7 || ships == 9) {
                     deck += 1;
                 }
                 tempo_x = x, tempo_y = y;
-                std::cout << "Enter the initial coordinates of the " << deck << "-deck ship: - x: \n";
+                std::cout << "Enter the final coordinates of the " << deck << "-deck ship: - x: \n";
                 std::cin >> x;
                 std::cout << "Enter the final coordinates of the " << deck << "-deck ship: - y: \n";
                 std::cin >> y;
-                if (x - tempo_x && y - tempo_y != deck - 1) {
-                    std::cout << "The size of the ship is set incorrectly!";
-                    break;
+                if ((x - tempo_x != deck - 1) && (y - tempo_y != deck - 1)) {
+                    std::cout << "The size of the ship is set incorrectly!\n";
+                    good = false;
                 }
             }
-            filed_player_1[y + 2][x + 2] = 'O';
-           }while ((x && y && tempo_x && tempo_y < 0) || (x && y && tempo_x && tempo_y > 9));
-            if (y == tempo_y) {
+            }while ((x && y && tempo_x && tempo_y < 0) || (x && y && tempo_x && tempo_y > 9) || !good);
+            if (ships < 4) {
+                filed_player_1[y + 2][x + 2] = 'O';
+            }
+            else if (y == tempo_y) {
                 for (int u = tempo_x; u <= x; u++) {
                     filed_player_1[y + 2][u + 2] = 'O';
 
