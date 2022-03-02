@@ -28,7 +28,7 @@ int main() {
         }
     }
     int x, tempo_x, y, tempo_y, ships = 0, deck = 2;
-    bool good = true, player_2 = false;
+    bool good = true, player_2 = false, got = true;
 
     for (int i = 0; i < 11; i++) {
         if (i == 10) {
@@ -160,11 +160,11 @@ int main() {
     player_2 = false;
     for (int g = 0; ; g++) {
         do {
-            good = true;
+            good = true, got = true;
             if (player_2) {
-                std::cout << "Player number two. Enter the firing coordinates:\n";
+                std::cout << "Player number two, your turn:. Enter the firing coordinates:\n";
             } else {
-                std::cout << "Player number one, you start first. Enter the firing coordinates:\n";
+                std::cout << "Player number one, your turn. Enter the firing coordinates:\n";
             }
             for (int f = 0; f < 13; f++) {
                 if (player_2) {
@@ -212,18 +212,22 @@ int main() {
             }
         }else {
             filed_player_1[y + 2][x + 2] = 'X';
+            std::cout << "Miss!\n";
+            got = false;
         }
     }
     else if (filed_player_2[y + 2][x + 2] == 'O') {
             filed_player_2[y + 2][x + 2] = 'X';
             std::cout << "Got!!!\n";
-            if (filed_player_2[y + 1][x + 1] && filed_player_2[y + 1][x + 2] && filed_player_2[y + 1][x + 3] &&
-                filed_player_2[y + 2][x + 1] && filed_player_2[y + 2][x + 3] && filed_player_2[y + 3][x + 1] &&
-                filed_player_2[y + 3][x + 2] && filed_player_2[y + 3][x + 3] != 'O') {
+            if (filed_player_2[y + 1][x + 1] != 'O' &&  filed_player_2[y + 1][x + 2] != 'O' &&  filed_player_2[y + 1][x + 3] != 'O' &&
+                filed_player_2[y + 2][x + 1] != 'O' &&  filed_player_2[y + 2][x + 3] != 'O' && filed_player_2[y + 3][x + 1] != 'O' &&
+                filed_player_2[y + 3][x + 2] != 'O' && filed_player_2[y + 3][x + 3] != 'O') {
                 std::cout << "Killed!!!\n";
             }
         }else {
             filed_player_2[y + 2][x + 2] = 'X';
+            std::cout << "Miss!\n";
+            got = false;
         }
        int count = 0;
         for (int vic = 0; vic < 13; vic ++) {
@@ -247,9 +251,9 @@ int main() {
             return 0;
         }
 
-    if (player_2) {
+    if (player_2 && !got) {
         player_2 = false;
-    }else {
+    }else if (!got) {
         player_2 = true;
     }
     }
